@@ -1,7 +1,7 @@
 import {addFinishFlags} from './finish-flag.js?v=white1';
 import {createResponseAssets} from './response-assets.js?v=2';
-import {createGameKangaroos} from './kangaroos.js?v=response-final16';
-import {addRoadsideReplacements} from './roadside-replacements.js';
+import {createGameKangaroos} from './kangaroos.js?v=turn13';
+import {addRoadsideReplacements} from './roadside-replacements.js?v=forest1';
 import {addBermudaGrass} from './bermuda-grass.js';
 import * as T from 'three';import{GLTFLoader}from'three/addons/loaders/GLTFLoader.js';import './interior.js?v=sharp14';
 const legacy=window.RoadScenery; const renderer=new T.WebGLRenderer({antialias:true});renderer.setSize(1,1);renderer.setPixelRatio(1);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;

@@ -49,10 +49,10 @@ function render(c,g,roo){const travel=g.distance,camera=travel-4;cameraOffset=g.
   }
  }
  // Persistent animals are placed at reset. Being noticed never changes their behaviour.
- for(const e of (g.responseScene?[]:g.roadside)){if(e.at>camera+2.4&&e.at<far)objects.push({z:e.at,x:e.x,kind:'roo',posture:e.initialPose,time:g.time+e.animationOffset,direction:e.direction});}
+ for(const e of (g.responseScene?[]:g.roadside)){const a=g.animal(e);if(a.z>camera+2.4&&a.z<far)objects.push({z:a.z,x:a.x,kind:'roo',posture:a.pose,time:a.time,direction:a.direction});}
  for(const e of (g.responseScene?[]:g.encounters)){if(e.result==='collision'){if(!e.departed&&e.at+18>camera+2.4&&e.at+18<far)objects.push({z:e.at+18,x:e.bodyMoved?-5.4:-2.4,kind:'roo',posture:e.condition==='dead'?'down-dead':'down',time:0,direction:1});continue}if(e.at>camera+2.4&&e.at<far){const animal=g.animal(e);
  if(e.type==='concealed'){for(let j=0;j<3;j++)objects.push({z:e.at-1+j*1.7,x:-5.4-j*1.1,kind:'bush',seed:e.id*31+j,cover:true});objects.push({z:e.at+3,x:-7.6,kind:'tree',seed:e.id*51});}
- if(!animal.hidden)objects.push({z:e.at,x:animal.x,kind:'roo',posture:animal.pose,time:animal.time,direction:animal.direction});}}
+ if(!animal.hidden)objects.push({z:animal.z??e.at,x:animal.x,kind:'roo',posture:animal.pose,time:animal.time,direction:animal.direction});}}
 
 if(g.responseScene)objects.push({z:g.parkingLocation+18,x:g.current.bodyMoved?-5.4:-2.4,kind:'roo',posture:'down',time:0,direction:1});
  objects.sort((a,b)=>b.z-a.z);
