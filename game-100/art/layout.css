@@ -1,0 +1,11 @@
+/* Approved art-study framing: fixed crop, uniform full-width scale. */
+body{overflow:auto}main{width:100%;height:auto;min-height:100dvh;max-width:none;margin:0;overflow:visible}.viewport{flex:none;aspect-ratio:1672/941;min-height:0}.viewport:has(#incident:not([hidden])){min-height:360px;aspect-ratio:1672/941}main:has(#results:not([hidden])){min-height:100dvh}
+
+.viewport .location{left:auto;right:20px}
+
+/* Crop the lower cockpit to the reference's 2:1 frame, without stretching it. */
+.viewport{aspect-ratio:2/1;overflow:hidden}
+.viewport #scene{width:100%;height:auto;aspect-ratio:1672/941;max-height:none}
+.viewport:has(#incident:not([hidden])){aspect-ratio:1672/941}
+/* Clipping must not become an internally scrollable surface on focus. */
+.viewport{overflow:clip}

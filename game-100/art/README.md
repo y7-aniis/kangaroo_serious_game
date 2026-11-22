@@ -1,0 +1,1 @@
+Game art integration: independent snapshot of web3d/biome, 2026-11-03. Original engine, scoring and incidents retained. Driving uses Three.js environment and interior; incident scenes use legacy renderer. Kangaroos retain original 2D art. Independent study stays at /biome/. Shared instanced vegetation, near/far tree LOD, finite visibility, 1254x706 world render.

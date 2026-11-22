@@ -1,0 +1,31 @@
+/* Normalised, mass-damped dragging; only the tail is interactive. */
+window.BodyDrag=(()=>{
+ const canvas=document.querySelector('#scene');let active=false,p,tx,ty,vx,vy,angle,held=false,phase='',clock=0,ox=0,oy=0,pointer=null;
+ let origin={x:.80,y:.52},target={x:.65,y:.78};
+ const safe=()=>Math.hypot((p.x-target.x)/.045,(p.y-target.y)/.035)<=1;
+ const local=e=>{const b=canvas.getBoundingClientRect();return{x:(e.clientX-b.left)/b.width,y:(e.clientY-b.top)/b.height}};
+ let visualTail=null,needsLayout=false;
+ const tail=()=>{if(visualTail)return visualTail;const s=Math.min(canvas.width/570,canvas.height/240),dx=(-151*1.08*Math.cos(.10)-5*.72*Math.sin(.10))*s,dy=(-151*1.08*Math.sin(.10)+5*.72*Math.cos(.10))*s;return{x:p.x+(dx*Math.cos(angle)-dy*Math.sin(angle))/canvas.width,y:p.y+(dx*Math.sin(angle)+dy*Math.cos(angle))/canvas.height}};
+ function begin(){visualTail=null;active=true;const layout=window.gameArt?.dragLayout();needsLayout=!layout;origin=layout?.start||{x:.80,y:.52};target=layout?.target||{x:.65,y:.78};p={...origin};tx=p.x;ty=p.y;vx=vy=angle=0;held=false;phase='ready';clock=0;canvas.style.touchAction='none'}
+ function end(){active=false;held=false;canvas.style.cursor='';canvas.style.touchAction='';if(pointer!==null&&canvas.hasPointerCapture(pointer))canvas.releasePointerCapture(pointer);pointer=null}
+ function message(text){const e=document.querySelector('#explanation');if(e)e.textContent=text}
+ function release(cancel=false){if(!held)return;held=false;clock=0;if(!cancel&&safe()){phase='settle';vx=vy=0;message('Settling…')}else{phase='return';tx=origin.x;ty=origin.y;message(cancel?'Drag cancelled.':'Not clear of traffic — move onto the marked verge.')}canvas.style.cursor='grab'}
+ canvas.addEventListener('pointerdown',e=>{if(!active||e.button!==0||phase==='settle'||phase==='done')return;const q=local(e),t=tail();const b=canvas.getBoundingClientRect();if(Math.hypot((q.x-t.x)*b.width,(q.y-t.y)*b.height)>28)return;e.preventDefault();pointer=e.pointerId;canvas.setPointerCapture(pointer);held=true;phase='drag';ox=p.x-q.x;oy=p.y-q.y;tx=p.x;ty=p.y;canvas.style.cursor='grabbing';message('Grip held · move slowly towards the verge.');});
+ canvas.addEventListener('pointermove',e=>{if(!active)return;const q=local(e);if(held){tx=Math.max(.05,Math.min(.95,q.x+ox));ty=Math.max(.15,Math.min(.95,q.y+oy));}else{const t=tail(),b=canvas.getBoundingClientRect();canvas.style.cursor=Math.hypot((q.x-t.x)*b.width,(q.y-t.y)*b.height)<28?'grab':'';}});
+ canvas.addEventListener('pointerup',()=>release());canvas.addEventListener('pointercancel',()=>release(true));canvas.addEventListener('lostpointercapture',()=>release(true));window.addEventListener('blur',()=>release(true));document.addEventListener('visibilitychange',()=>{if(document.hidden)release(true)});
+ function tick(dt){if(!active)return false;clock+=dt;if(held||phase==='return'){vx+=(tx-p.x)*12*dt;vy+=(ty-p.y)*12*dt;vx*=Math.exp(-6*dt);vy*=Math.exp(-6*dt);const speed=Math.hypot(vx,vy);if(speed>.13){vx*=.13/speed;vy*=.13/speed}}else{vx*=Math.exp(-9*dt);vy*=Math.exp(-9*dt)}p.x=Math.max(.05,Math.min(.95,p.x+vx*dt));p.y=Math.max(.15,Math.min(.95,p.y+vy*dt));angle+=(Math.max(-.10,Math.min(.10,vx*1.1-vy*.3))-angle)*Math.min(1,dt*6);
+ if(phase==='return'&&Math.hypot(p.x-origin.x,p.y-origin.y)<.006&&Math.hypot(vx,vy)<.015){phase='ready';}
+ if(phase==='settle'&&clock>.8){if(!safe()){phase='return';tx=origin.x;ty=origin.y;clock=0;message('Still too close to traffic. Try the marked verge.')}else{phase='done';clock=0;message('Road cleared');if(document.querySelector('#sound')?.textContent==='Sound on'){try{const ac=new AudioContext(),o=ac.createOscillator(),g=ac.createGain();o.frequency.value=660;g.gain.setValueAtTime(.035,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.18);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+.2);o.onended=()=>ac.close()}catch{}}}}
+ return phase==='done'&&clock>1;
+ }
+ function decorate(c){if(!active)return;const W=c.canvas.width,H=c.canvas.height;c.save();if(held||phase==='settle'||phase==='done'){
+ const valid=safe(),ready=held&&valid,confirmed=valid&&(phase==='settle'||phase==='done'),green=ready||confirmed;
+ c.fillStyle=green?'#61d89b66':'#d9e6b533';c.strokeStyle=green?'#9affc5':'#d6e8aeaa';c.lineWidth=green?4:2;c.setLineDash(green?[]:[8,6]);c.beginPath();c.ellipse(W*target.x,H*target.y,W*.045,H*.035,0,0,Math.PI*2);c.fill();c.stroke();c.setLineDash([]);
+ const label=ready?'✓ RELEASE TO PLACE':phase==='done'?'✓ ROAD CLEARED':confirmed?'✓ PLACING…':'SAFE DROP ZONE';
+ c.font='600 '+Math.max(12,H*.022)+'px system-ui';c.textAlign='center';const x=W*target.x,y=H*(target.y+.065),width=c.measureText(label).width+24;
+ c.fillStyle=green?'#154b35ef':'#203b35df';c.beginPath();c.roundRect(x-width/2,y-H*.023,width,H*.034+8,6);c.fill();c.fillStyle=green?'#caffdf':'#f4f2d6';c.fillText(label,x,y);
+ }if(phase==='return'){c.strokeStyle='#d7755b';c.lineWidth=4;c.strokeRect(4,4,W-8,H-8)}c.restore();}
+ function highlight(c){if(!active)return;const t=tail(),W=c.canvas.width,H=c.canvas.height,k=W/1000,x=t.x*W,y=t.y*H;const pulse=held||matchMedia('(prefers-reduced-motion: reduce)').matches?0:(Math.sin(clock*3.5)+1)/2,r=(held?14:17+3*pulse)*k;c.save();const glow=c.createRadialGradient(x,y,0,x,y,r*2);glow.addColorStop(0,held?'#b9ead780':'#ffe4a080');glow.addColorStop(1,'#ffe4a000');c.fillStyle=glow;c.beginPath();c.arc(x,y,r*2,0,Math.PI*2);c.fill();c.strokeStyle='#263d35';c.lineWidth=5*k;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.stroke();c.strokeStyle=held?'#aee4c8':'#ffdc87';c.lineWidth=2.5*k;c.stroke();c.fillStyle=held?'#bcebd4':'#ffdf99';c.beginPath();c.arc(x,y,3.5*k,0,Math.PI*2);c.fill();const label=held?(safe()?'RELEASE TO PLACE':'GRIP HELD'):'GRAB HERE';c.font='600 '+Math.round(12*k)+'px system-ui';const width=c.measureText(label).width+20*k;c.fillStyle='#203b35ef';c.beginPath();c.roundRect(x-width/2,y-r-30*k,width,23*k,5*k);c.fill();c.fillStyle='#fff1cf';c.textAlign='center';c.fillText(label,x,y-r-14*k);c.restore();}
+
+ return{setVisualTail(value){if(active){if(needsLayout){const layout=window.gameArt?.dragLayout();if(layout){origin=layout.start;target=layout.target;p={...origin};tx=p.x;ty=p.y;needsLayout=false}}visualTail=value}},begin,end,tick,decorate,highlight,get pose(){return {...p,angle,held,phase}},get tail(){return tail()}};
+})();

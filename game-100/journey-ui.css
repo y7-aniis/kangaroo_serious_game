@@ -1,0 +1,51 @@
+@font-face{font-family:PrimerSC;src:url('../biome/assets/figma-ui/primer-sc.ttf')}@font-face{font-family:PicaSC;src:url('../biome/assets/figma-ui/pica-sc.ttf')}
+html body{background:#162323}html body main{max-width:none;width:100%;min-height:100dvh;height:auto}html body main>header,html body main>.note{display:none}html body #stage,html.wide-preview body #stage{width:100%;height:auto;aspect-ratio:2/1;overflow:hidden;container-type:inline-size;flex:none}html body #stage>#world,html body #stage>#cockpit{height:112.56%;width:100%}#label{display:none}#design-ui{position:absolute;inset:0;pointer-events:none;z-index:5}.route-title{position:absolute;left:2.0833%;top:3.1944%;font:400 2.7778cqw PrimerSC,serif;color:white;line-height:1.15}.route-distance{position:absolute;left:3.8889%;top:8.4722%;width:9.1667%;text-align:center;color:white;font:400 4.4444cqw PicaSC,serif;line-height:1.2}.route-distance small{font-size:2.7778cqw;color:white}
+#stage .design-button{position:absolute;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;color:transparent;font-size:0;pointer-events:auto;overflow:hidden;touch-action:none;cursor:pointer}#stage .design-button:focus-visible{outline:2px solid #f0e3af;outline-offset:-2px;border-radius:50%}#stage .design-button:hover{filter:brightness(1.15)}#stage .design-button.active{filter:brightness(1.3);transform:translateY(2px)}#stage .design-button:disabled{cursor:wait}#stage .design-button img{pointer-events:none;position:absolute;inset:0;width:100%;height:100%;object-fit:fill}#audio-toggle{left:58.0556%;top:-1.9444%;width:11.4583%;height:22.9167%;opacity:.7}#view-toggle{left:65.5208%;top:-1.5278%;width:10.9722%;height:21.9444%;opacity:.7}#fullscreen-toggle{left:80.2431%;top:-1.1111%;width:10.5556%;height:21.1111%;opacity:.7}#stage #reset{left:71.9792%;top:-2.9167%;width:12.2917%;height:24.5833%;opacity:.7;background:url('../biome/assets/figma-ui/reset.png') center/100% 100% no-repeat}#stage #pause{left:87.3264%;top:-1.9444%;width:11.4583%;height:22.9167%;opacity:.7;background:url('../biome/assets/figma-ui/pause.png') center/100% 100% no-repeat}#stage #pause[aria-pressed=true]{filter:brightness(1.5)}#stage #brake{left:65.9028%;top:70.4167%;width:10.8333%;height:26.8056%;opacity:.8;background:url('../biome/assets/figma-ui/brake.png') center/100% 100% no-repeat}#stage #gas{left:77.4306%;top:68.3333%;width:10.9722%;height:27.9167%}#stage #gas img{width:258.57%;height:151.89%;left:-125.89%;top:-25.73%;max-width:none}#minimap-slot{position:absolute;left:1.9444%;top:68.0556%;width:13.8889%;aspect-ratio:1}#minimap-slot>img,#minimap-slot>canvas{position:absolute;inset:0;width:100%;height:100%}#sample-tools{background:#233b32;color:#c4d0bd;padding:10px 20px}#sample-tools>summary{cursor:pointer;font-size:12px}#sample-tools footer{padding:12px 0}#sample-tools #speed{font-size:18px}#ui-feedback{position:absolute;left:50%;top:20%;transform:translateX(-50%);padding:7px 14px;border-radius:5px;background:#203b35db;color:#f2efde;font-size:12px;opacity:0;transition:opacity .2s}#ui-feedback.visible{opacity:1}
+
+/* Minimal preview controls: camera and pause only. */
+#stage #audio-toggle,#stage #reset,#stage #fullscreen-toggle{display:none}
+#stage #view-toggle{left:80.2431%}
+/* Smaller upper-right controls, preserving their centers and pedal order. */
+#stage #view-toggle{left:81.3403%;top:.6667%;width:8.7778%;height:17.5556%}
+#stage #pause{left:88.4722%;top:.3472%;width:9.1667%;height:18.3333%}
+/* Align the visible pedal bottoms and tighten their grouping. */
+#stage #brake{left:67.05%;top:70.4167%}
+#stage #gas{left:77.4306%;top:68.6111%}
+/* Both briefing and driving fill the viewport without stretching the cockpit. */
+html body #stage,html.wide-preview body #stage{height:100dvh;aspect-ratio:auto}
+html body #stage>#world,html body #stage>#cockpit{width:100%;height:100%;object-fit:cover;object-position:center top}
+#sample-tools{position:absolute;top:100dvh;left:0;right:0}
+#stage #view-toggle{height:8.7778cqw;top:.3333cqw}
+#stage #pause{height:9.1667cqw;top:.1736cqw}
+#stage #brake{height:13.4028cqw;top:auto;bottom:2.7778%}
+#stage #gas{height:13.9583cqw;top:auto;bottom:3.4722%}
+#minimap-slot{top:auto;bottom:4.1667%}
+
+#intro{position:absolute;inset:0;z-index:12;display:flex;align-items:center;overflow:auto;background:linear-gradient(90deg,rgba(12,27,25,.96) 0%,rgba(15,30,28,.88) 30%,rgba(17,31,29,.46) 51%,rgba(17,31,29,.08) 73%,transparent 100%);color:#f5f1e5}
+#intro[hidden]{display:none}.briefing-open #design-ui{visibility:hidden}.briefing-copy{width: min(580px,49%);margin:3% 0 3% 5.5%;font-family:system-ui,sans-serif}.briefing-eyebrow{font-size:clamp(9px,.85cqw,13px);letter-spacing:.22em;color:#d8c79f;margin:0 0 20px}.briefing-copy h1{font:400 clamp(30px,4.15cqw,66px)/1.05 Georgia,serif;letter-spacing:-.035em;margin:0 0 27px;color:#faf5e9}.mission-facts{display:flex;gap:44px;padding:14px 0;border-top:1px solid #e1e6cf25;border-bottom:1px solid #e1e6cf25;max-width:350px}.mission-facts>div{display:flex;flex-direction:column;gap:4px}.mission-facts strong{font-size:clamp(26px,2.5cqw,40px);font-weight:500;line-height:1}.mission-facts small{font-size:12px;color:#dfc18c;letter-spacing:.08em}.mission-facts span{font-size:9px;letter-spacing:.2em;color:#aab8ad}.mission-watch{list-style:none;padding:0;margin:20px 0 15px;display:grid;gap:9px;font-size:clamp(12px,1cqw,15px);color:#e0e5d9}.mission-watch li{display:flex;align-items:center;gap:11px}.mission-watch li>span{color:#dbb76c;width:18px;text-align:center}.mission-speed{display:flex;align-items:center;gap:13px}.speed-symbol{display:grid;place-items:center;border:1px solid #d8bc80a0;border-radius:50%;width:34px;height:34px;font-size:13px;color:#e6c88b}.mission-speed p{margin:0;font-size:clamp(11px,.95cqw,14px);line-height:1.6;color:#afbeb4}.mission-speed strong{font-weight:500;color:#f3e9d4}.mission-meta{display:flex;gap:10px;color:#afbbb1;font-size:clamp(10px,.8cqw,12px);margin:22px 0}.mission-meta i{font-style:normal;color:#6c8176}#start{display:block;width:min(350px,100%);padding:18px 22px;background:#d9ad62;border:1px solid #edc889;border-radius:4px;color:#202b26;font-size:13px;letter-spacing:.14em;font-weight:700;box-shadow:0 6px 24px #0002}#start:hover{background:#e8bd73}#start:disabled{opacity:.55}#practice-response{display:flex;gap:20px;align-items:center;background:#263b3020;backdrop-filter:blur(5px);border:0;border-bottom:1px solid #d4dfce30;border-radius:0;color:#c5cfc2;font-size:12px;padding:13px 0;margin-top:5px}#practice-response:hover{color:#f0ce8f}@media(max-width:700px){.briefing-copy{width:83%;margin:24px 7%}#intro{background:linear-gradient(90deg,#0c1b19f0,#0f1e1cbb 70%,#111f1d55)}html body #stage:has(#intro:not([hidden])){min-height:630px}.briefing-copy h1{font-size:42px}.mission-facts{padding:15px 0}.briefing-eyebrow{margin-bottom:18px}}
+main:has(.briefing-open) #sample-tools{display:none}
+
+.briefing-copy h1{font-size:clamp(27px,3.15cqw,50px)}
+@media(max-width:700px){.briefing-copy h1{font-size:clamp(25px,6vw,42px)}}
+/* Fill the start viewport by revealing the lower cockpit; preserve image proportions. */
+html body #stage.briefing-open,html.wide-preview body #stage.briefing-open{height:100dvh;min-height:630px;aspect-ratio:auto}
+html body #stage.briefing-open>#world,html body #stage.briefing-open>#cockpit{width:100%;height:100%;object-fit:cover;object-position:center top}
+
+html body main{height:100dvh;min-height:0;overflow:hidden}main>header,main>.progress,main>footer,#notice,#drive-panel,.location{display:none!important}
+html body #stage{height:100dvh;min-height:0;aspect-ratio:auto;position:relative;flex:none;container-type:inline-size}
+html body #stage #scene{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:center top}
+#intro{padding:0}#intro article{max-width:none;background:none;border:none;border-radius:0;padding:0;box-shadow:none}
+#intro .briefing-copy{width:min(580px,49%);margin:3% 0 3% 5.5%}
+#intro h1{letter-spacing:-.035em}#intro p{line-height:inherit}#intro .mission-speed p{line-height:1.6}#intro .mission-meta{line-height:1.4}
+#stage:has(#intro:not([hidden])) #design-ui,#stage:has(#incident:not([hidden])) #design-ui{visibility:hidden}
+main>.hud{position:absolute;z-index:6;left:35%;top:20px;width:26%;background:transparent;padding:0;display:flex;justify-content:center;gap:20px;pointer-events:none;border:0;color:#f5f0e4;text-shadow:0 1px 4px #14231f}
+.hud>div:nth-child(2){display:none}.hud small{font-size:9px}.hud strong{font-size:17px}
+main:has(#intro:not([hidden]))>.hud,main:has(#incident:not([hidden]))>.hud,main:has(#results:not([hidden]))>.hud{display:none}
+#stage #pause{background:url('../biome/assets/figma-ui/pause.png') center/100% 100% no-repeat;opacity:.7}
+#paused,#incident{z-index:20}#paused[hidden],#incident[hidden]{display:none}
+#results{padding:35px;overflow:auto}#stage:has(#incident:not([hidden])) #scene{object-fit:fill}
+@media(max-width:700px){#intro .briefing-copy{width:83%;margin:24px 7%}html body #stage:has(#intro:not([hidden])){min-height:630px}main>.hud{top:14%;left:35%;width:35%;gap:12px}}
+
+#paused #sound{display:block;margin-top:16px;background:transparent;border:1px solid #d9dfcf55;color:#e5eddf;font-size:13px}
+
+#stage #music-toggle{left:76.1%;top:2.1cqw;width:4.95cqw;height:4.95cqw;color:#eef0e6;opacity:.85}#music-toggle svg{display:block;width:100%;height:100%}#music-toggle .music-muted{display:none}#music-toggle[aria-pressed=false] .music-muted{display:block}#music-toggle[aria-pressed=false]{opacity:.5}
