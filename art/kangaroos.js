@@ -1,11 +1,11 @@
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-import {cloneRig} from '../../biome/kangaroo-preview.js';
-import {makeProne} from '../../actions/prone.js';
-import {measureHopGroundOffsets} from '../../actions/grounding.js';
+import {cloneRig} from '../biome/kangaroo-preview.js';
+import {makeProne} from '../actions/prone.js';
+import {measureHopGroundOffsets} from '../actions/grounding.js';
 
 export async function createGameKangaroos(scene,center,height){
- const asset=await new GLTFLoader().loadAsync('../assets/kangaroo.glb');
+ const asset=await new GLTFLoader().loadAsync('assets/kangaroo.glb');
  const sample=cloneRig(asset.scene);sample.scale.setScalar(1.8);sample.rotation.y=-Math.PI/2;
  const calibration=new T.AnimationMixer(sample);makeProne(sample,calibration,asset.animations);
  const contacts={};

@@ -1,5 +1,5 @@
-import * as T from '../game-100/art/vendor/three.module.js';
-import {GLTFLoader} from '../game-100/art/vendor/loaders/GLTFLoader.js';
+import * as T from '../art/vendor/three.module.js';
+import {GLTFLoader} from '../art/vendor/loaders/GLTFLoader.js';
 let cleanup;
 window.enhanceEndingReward=async function(){cleanup?.();const panel=document.querySelector('.challenge-panel'),reward=panel?.querySelector('.challenge-reward');if(!reward)return;
 const hero=document.createElement('div');hero.className='ending-reward-hero';panel.querySelector('.challenge-kicker').after(hero);hero.append(reward);const summary=document.createElement('div');summary.className='ending-reward-summary';hero.append(summary);for(const sel of ['.challenge-stars','h2','.challenge-feedback']){const el=panel.querySelector(sel);if(el)summary.append(el)}

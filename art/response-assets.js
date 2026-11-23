@@ -1,9 +1,9 @@
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-import {cloneRig} from '../../biome/kangaroo-preview.js';
-import {makeProne} from '../../actions/prone.js';
+import {cloneRig} from '../biome/kangaroo-preview.js';
+import {makeProne} from '../actions/prone.js';
 export async function createResponseAssets(){
- const gltf=await new GLTFLoader().loadAsync('../assets/kangaroo.glb');
+ const gltf=await new GLTFLoader().loadAsync('assets/kangaroo.glb');
  const animal=cloneRig(gltf.scene);animal.scale.setScalar(1.8);animal.rotation.y=-Math.PI/2;
  const mix=new T.AnimationMixer(animal);makeProne(animal,mix,gltf.animations);animal.rotation.y=Math.PI/2;
  const scene=new T.Scene(),renderer=new T.WebGLRenderer({alpha:true,antialias:true});renderer.setSize(900,420);renderer.setClearColor(0,0);renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;
